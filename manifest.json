@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "ChatGPT Performance Booster",
   "version": "1.0.0",
-  "description": "Hide and reveal messages in long ChatGPT conversations to improve performance and reduce clutter",
+  "description": "Boost performance in long ChatGPT chats automatically.",
   "permissions": [
     "storage"
   ],
@@ -14,7 +14,9 @@
     {
       "matches": [
         "https://chatgpt.com/c/*",
-        "https://chat.openai.com/c/*"
+        "https://chatgpt.com/g/*/c/*",
+        "https://chat.openai.com/c/*",
+        "https://chat.openai.com/g/*/c/*"
       ],
       "js": [
         "src/icons.js",
@@ -33,4 +35,5 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  }}
+  }
+}
