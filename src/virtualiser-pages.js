@@ -67,15 +67,15 @@ window.Virtualiser = {
     const messages = Array.from(this.getMessages());
     const viewportHeight = this.getViewportHeight();
     
-    console.log(`[Virtualiser:Pages] Found ${messages.length} messages, viewport: ${viewportHeight}px`);
+    // console.log(`[Virtualiser:Pages] Found ${messages.length} messages, viewport: ${viewportHeight}px`);
     
     // Calculate how many messages to keep visible
     const visibleCount = this.findMessagesForPages(messages, this.VISIBLE_PAGES);
     
-    console.log(`[Virtualiser:Pages] Keeping ${visibleCount} messages (${this.VISIBLE_PAGES} pages worth)`);
+    // console.log(`[Virtualiser:Pages] Keeping ${visibleCount} messages (${this.VISIBLE_PAGES} pages worth)`);
     
     if (visibleCount >= messages.length) {
-      console.log(`[Virtualiser:Pages] All messages fit in ${this.VISIBLE_PAGES} pages, nothing to hide`);
+      // console.log(`[Virtualiser:Pages] All messages fit in ${this.VISIBLE_PAGES} pages, nothing to hide`);
       return;
     }
 
@@ -85,7 +85,7 @@ window.Virtualiser = {
     const messagesToHide = messages.slice(0, hiddenCount);
 
     const hiddenHeight = this.calculateTotalHeight(messagesToHide);
-    console.log(`[Virtualiser:Pages] Hiding ${hiddenCount} messages (${Math.round(hiddenHeight)}px, ~${(hiddenHeight / viewportHeight).toFixed(1)} pages)`);
+    // console.log(`[Virtualiser:Pages] Hiding ${hiddenCount} messages (${Math.round(hiddenHeight)}px, ~${(hiddenHeight / viewportHeight).toFixed(1)} pages)`);
 
     messagesToHide.forEach(msg => {
       msg.style.display = 'none';
@@ -95,7 +95,7 @@ window.Virtualiser = {
     if (hiddenCount > 0) {
       const firstVisible = messages[hiddenCount];
       window.VirtualiserUI.insertPlaceholder(firstVisible, hiddenCount, () => this.revealBatch());
-      console.log(`[Virtualiser:Pages] Placeholder inserted, ${hiddenCount} messages hidden`);
+      // console.log(`[Virtualiser:Pages] Placeholder inserted, ${hiddenCount} messages hidden`);
     }
   },
 
@@ -103,6 +103,9 @@ window.Virtualiser = {
   revealBatch() {
     if (this.isRevealing) return;
     this.isRevealing = true;
+
+    // Save scroll position before revealing
+    const scrollY = window.scrollY;
 
     const hidden = Array.from(this.getHiddenMessages());
     if (hidden.length === 0) {
@@ -136,7 +139,7 @@ window.Virtualiser = {
     revealCount = Math.max(1, revealCount);
     const toReveal = hidden.slice(-revealCount);
     
-    console.log(`[Virtualiser:Pages] Revealing ${toReveal.length} messages (~${this.REVEAL_PAGES} page, ${hidden.length - toReveal.length} still hidden)`);
+    // console.log(`[Virtualiser:Pages] Revealing ${toReveal.length} messages (~${this.REVEAL_PAGES} page, ${hidden.length - toReveal.length} still hidden)`);
 
     toReveal.forEach(msg => {
       msg.style.display = '';
@@ -156,13 +159,8 @@ window.Virtualiser = {
       this.stopObserver();
     }
 
-    // Scroll to the bottom of the last revealed message (top of previously visible content)
-    // This keeps the placeholder off-screen above
-    const lastRevealed = toReveal[toReveal.length - 1];
-    if (lastRevealed) {
-      lastRevealed.scrollIntoView({ behavior: 'instant', block: 'end' });
-      console.log('[Virtualiser:Pages] Scrolled to bottom of last revealed message');
-    }
+    // Restore scroll position to where it was before revealing
+    window.scrollTo(0, scrollY);
 
     this.isRevealing = false;
   },
@@ -170,7 +168,7 @@ window.Virtualiser = {
   // Reveal all hidden messages
   revealAll() {
     const hidden = this.getHiddenMessages();
-    console.log(`[Virtualiser:Pages] Revealing all ${hidden.length} hidden messages`);
+    // console.log(`[Virtualiser:Pages] Revealing all ${hidden.length} hidden messages`);
     
     hidden.forEach(element => {
       element.style.display = '';
@@ -188,7 +186,7 @@ window.Virtualiser = {
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting && !this.isRevealing) {
-            console.log('[Virtualiser:Pages] Placeholder intersecting, revealing batch');
+            // console.log('[Virtualiser:Pages] Placeholder intersecting, revealing batch');
             this.revealBatch();
           }
         }
@@ -203,7 +201,7 @@ window.Virtualiser = {
     const placeholder = window.VirtualiserUI.getPlaceholder();
     if (placeholder) {
       this.intersectionObserver.observe(placeholder);
-      console.log('[Virtualiser:Pages] IntersectionObserver watching placeholder');
+      // console.log('[Virtualiser:Pages] IntersectionObserver watching placeholder');
     }
   },
 
@@ -212,7 +210,7 @@ window.Virtualiser = {
     if (this.intersectionObserver) {
       this.intersectionObserver.disconnect();
       this.intersectionObserver = null;
-      console.log('[Virtualiser:Pages] IntersectionObserver disconnected');
+      // console.log('[Virtualiser:Pages] IntersectionObserver disconnected');
     }
   },
 

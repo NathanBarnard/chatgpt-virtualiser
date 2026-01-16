@@ -29,15 +29,15 @@ window.Virtualiser = {
   apply() {
     const messages = Array.from(this.getMessages());
     
-    console.log(`[Virtualiser:Messages] Found ${messages.length} messages`);
+    // console.log(`[Virtualiser:Messages] Found ${messages.length} messages`);
     
     // Keep the last VISIBLE_COUNT messages visible
     const visibleCount = Math.min(this.VISIBLE_COUNT, messages.length);
     
-    console.log(`[Virtualiser:Messages] Keeping ${visibleCount} messages (max: ${this.VISIBLE_COUNT})`);
+    // console.log(`[Virtualiser:Messages] Keeping ${visibleCount} messages (max: ${this.VISIBLE_COUNT})`);
     
     if (visibleCount >= messages.length) {
-      console.log(`[Virtualiser:Messages] All messages fit within limit, nothing to hide`);
+      // console.log(`[Virtualiser:Messages] All messages fit within limit, nothing to hide`);
       return;
     }
 
@@ -46,7 +46,7 @@ window.Virtualiser = {
     const hiddenCount = messages.length - visibleCount;
     const messagesToHide = messages.slice(0, hiddenCount);
 
-    console.log(`[Virtualiser:Messages] Hiding ${hiddenCount} messages`);
+    // console.log(`[Virtualiser:Messages] Hiding ${hiddenCount} messages`);
 
     messagesToHide.forEach(msg => {
       msg.style.display = 'none';
@@ -56,7 +56,7 @@ window.Virtualiser = {
     if (hiddenCount > 0) {
       const firstVisible = messages[hiddenCount];
       window.VirtualiserUI.insertPlaceholder(firstVisible, hiddenCount, () => this.revealBatch());
-      console.log(`[Virtualiser:Messages] Placeholder inserted, ${hiddenCount} messages hidden`);
+      // console.log(`[Virtualiser:Messages] Placeholder inserted, ${hiddenCount} messages hidden`);
     }
   },
 
@@ -64,6 +64,9 @@ window.Virtualiser = {
   revealBatch() {
     if (this.isRevealing) return;
     this.isRevealing = true;
+
+    // Save scroll position before revealing
+    const scrollY = window.scrollY;
 
     const hidden = Array.from(this.getHiddenMessages());
     if (hidden.length === 0) {
@@ -77,7 +80,7 @@ window.Virtualiser = {
     const revealCount = Math.min(this.REVEAL_COUNT, hidden.length);
     const toReveal = hidden.slice(-revealCount);
     
-    console.log(`[Virtualiser:Messages] Revealing ${toReveal.length} messages (${hidden.length - toReveal.length} still hidden)`);
+    // console.log(`[Virtualiser:Messages] Revealing ${toReveal.length} messages (${hidden.length - toReveal.length} still hidden)`);
 
     toReveal.forEach(msg => {
       msg.style.display = '';
@@ -97,13 +100,8 @@ window.Virtualiser = {
       this.stopObserver();
     }
 
-    // Scroll to the bottom of the last revealed message (top of previously visible content)
-    // This keeps the placeholder off-screen above
-    const lastRevealed = toReveal[toReveal.length - 1];
-    if (lastRevealed) {
-      lastRevealed.scrollIntoView({ behavior: 'instant', block: 'end' });
-      console.log('[Virtualiser:Messages] Scrolled to bottom of last revealed message');
-    }
+    // Restore scroll position to where it was before revealing
+    window.scrollTo(0, scrollY);
 
     this.isRevealing = false;
   },
@@ -111,7 +109,7 @@ window.Virtualiser = {
   // Reveal all hidden messages
   revealAll() {
     const hidden = this.getHiddenMessages();
-    console.log(`[Virtualiser:Messages] Revealing all ${hidden.length} hidden messages`);
+    // console.log(`[Virtualiser:Messages] Revealing all ${hidden.length} hidden messages`);
     
     hidden.forEach(element => {
       element.style.display = '';
@@ -129,7 +127,7 @@ window.Virtualiser = {
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting && !this.isRevealing) {
-            console.log('[Virtualiser:Messages] Placeholder intersecting, revealing batch');
+            // console.log('[Virtualiser:Messages] Placeholder intersecting, revealing batch');
             this.revealBatch();
           }
         }
@@ -144,7 +142,7 @@ window.Virtualiser = {
     const placeholder = window.VirtualiserUI.getPlaceholder();
     if (placeholder) {
       this.intersectionObserver.observe(placeholder);
-      console.log('[Virtualiser:Messages] IntersectionObserver watching placeholder');
+      // console.log('[Virtualiser:Messages] IntersectionObserver watching placeholder');
     }
   },
 
@@ -153,7 +151,7 @@ window.Virtualiser = {
     if (this.intersectionObserver) {
       this.intersectionObserver.disconnect();
       this.intersectionObserver = null;
-      console.log('[Virtualiser:Messages] IntersectionObserver disconnected');
+      // console.log('[Virtualiser:Messages] IntersectionObserver disconnected');
     }
   },
 
