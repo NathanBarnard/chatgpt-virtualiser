@@ -31,7 +31,7 @@ window.VirtualiserInjector = {
     // Replace icon
     const svg = btn.querySelector('svg');
     if (svg) {
-      svg.outerHTML = isEnabled ? Icons.show : Icons.hide;
+      svg.outerHTML = isEnabled ? Icons.bolt : Icons.boltSlash;
     }
 
     // Replace label text
@@ -91,7 +91,7 @@ window.VirtualiserInjector = {
     
     const svg = btn.querySelector('svg');
     if (svg) {
-      svg.outerHTML = isEnabled ? Icons.show : Icons.hide;
+      svg.outerHTML = isEnabled ? Icons.bolt : Icons.boltSlash;
     }
     
     const inner = btn.querySelector('div');

@@ -3,19 +3,15 @@
  */
 
 window.VirtualiserIcons = {
-  hide: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18Z"/>
-    <path d="M22.676 12.553a11.249 11.249 0 0 1-2.631 3.157l-1.091-1.091A9.75 9.75 0 0 0 21.335 12a9.75 9.75 0 0 0-15.016-5.16L4.87 5.39A11.25 11.25 0 0 1 21.335 12c.18.302.281.666.281 1.053s-.1.75-.28 1.053l-.66-.553Z"/>
-    <path d="M15.75 12a3.75 3.75 0 0 1-5.56 3.28l5.09-5.09c.3.53.47 1.15.47 1.81Z"/>
-    <path d="M12.53 8.28l-5.09 5.09A3.75 3.75 0 0 1 12.53 8.28Z"/>
-    <path d="M6.75 12c0-.66.17-1.28.47-1.81L2.665 5.63A11.25 11.25 0 0 0 .665 12c0 .387.1.75.28 1.053a11.25 11.25 0 0 0 17.36 4.317l-1.45-1.45A9.75 9.75 0 0 1 2.665 12c.05-.08.1-.16.16-.23l3.93 3.93Z"/>
-  </svg>`,
-
-  show: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path fill-rule="evenodd" d="M12 4.5C7.305 4.5 3.135 7.387.66 11.053a1.875 1.875 0 0 0 0 1.894C3.135 16.613 7.305 19.5 12 19.5s8.865-2.887 11.34-6.553a1.875 1.875 0 0 0 0-1.894C20.865 7.387 16.695 4.5 12 4.5ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd"/>
-  </svg>`,
-
   expand: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
     <path d="M4.5 3.75a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 0 1.5 0V5.56l4.72 4.72a.75.75 0 1 0 1.06-1.06L6.31 4.5H9a.75.75 0 0 0 0-1.5H4.5a.75.75 0 0 0 0 .75ZM19.5 20.25a.75.75 0 0 0 .75-.75v-4.5a.75.75 0 0 0-1.5 0v3.44l-4.72-4.72a.75.75 0 1 0-1.06 1.06l4.72 4.72H15a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-.75Z"/>
+  </svg>`,
+
+  bolt: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/>
+  </svg>`,
+
+  boltSlash: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M11.412 15.655 9.75 21.75l3.745-4.012M9.257 13.5H3.75l2.659-2.849m2.048-2.194L14.25 2.25 12 10.5h8.25l-4.707 5.043M8.457 8.457 3 3m5.457 5.457 7.086 7.086m0 0L21 21"/>
   </svg>`
 };

@@ -19,7 +19,7 @@ window.VirtualiserInjector = {
     const isEnabled = await Storage.isEnabled();
 
     const menuItem = UI.createMenuItem(
-      isEnabled ? Icons.show : Icons.hide,
+      isEnabled ? Icons.bolt : Icons.boltSlash,
       isEnabled ? 'Disable virtualisation' : 'Enable virtualisation',
       isEnabled ? Actions.disable : Actions.enable,
       'virtualiser-toggle'
