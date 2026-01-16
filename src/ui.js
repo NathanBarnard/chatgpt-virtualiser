@@ -93,7 +93,7 @@ window.VirtualiserUI = {
 
     if (count <= 0) {
       placeholder.remove();
-      console.log('[Virtualiser] All messages revealed, placeholder removed');
+      // console.log('[Virtualiser] All messages revealed, placeholder removed');
     } else {
       placeholder.setAttribute('data-hidden-count', count);
       placeholder.querySelector('span').textContent = 

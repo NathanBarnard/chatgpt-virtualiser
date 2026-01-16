@@ -19,12 +19,12 @@
       const elapsed = Date.now() - startTime;
       
       if (messages.length > 0) {
-        console.log(`[Virtualiser] Messages appeared after ${elapsed}ms`);
+        // console.log(`[Virtualiser] Messages appeared after ${elapsed}ms`);
         callback();
       } else if (elapsed < maxWaitMs) {
         setTimeout(check, 200);
       } else {
-        console.log(`[Virtualiser] Timeout waiting for messages after ${maxWaitMs}ms`);
+        // console.log(`[Virtualiser] Timeout waiting for messages after ${maxWaitMs}ms`);
       }
     };
     
@@ -34,7 +34,7 @@
   // Wait for page to be ready and apply virtualisation if enabled
   async function onPageReady() {
     const enabled = await Storage.isEnabled();
-    console.log(`[Virtualiser] Virtualisation enabled: ${enabled}`);
+    // console.log(`[Virtualiser] Virtualisation enabled: ${enabled}`);
     
     if (enabled) {
       Core.apply();
@@ -50,17 +50,17 @@
   // Initialize
   async function init() {
     const convId = Storage.getConversationId();
-    console.log(`[Virtualiser] Initializing for conversation: ${convId || '(none)'}`);
-    console.log(`[Virtualiser] Using ${Injector.name} injector`);
+    // console.log(`[Virtualiser] Initializing for conversation: ${convId || '(none)'}`);
+    // console.log(`[Virtualiser] Using ${Injector.name} injector`);
     
     // Setup the UI injector (menu or button) - starts in loading state
     Injector.setup();
 
     // Wait for messages to load, then enable button
-    console.log('[Virtualiser] Waiting for messages to load...');
+    // console.log('[Virtualiser] Waiting for messages to load...');
     waitForMessages(onPageReady);
 
-    console.log('[Virtualiser] Initialized');
+    // console.log('[Virtualiser] Initialized');
   }
 
   // Handle URL changes
@@ -69,7 +69,7 @@
     if (window.location.href !== lastUrl) {
       lastUrl = window.location.href;
       const convId = Storage.getConversationId();
-      console.log(`[Virtualiser] URL changed: ${convId || '(none)'}`);
+      // console.log(`[Virtualiser] URL changed: ${convId || '(none)'}`);
 
       // Set loading state during navigation
       if (Injector.setLoading) {
@@ -81,7 +81,7 @@
       Core.revealAll();
 
       // Wait for messages and apply
-      console.log('[Virtualiser] Waiting for messages to load...');
+      // console.log('[Virtualiser] Waiting for messages to load...');
       waitForMessages(onPageReady);
     }
   });

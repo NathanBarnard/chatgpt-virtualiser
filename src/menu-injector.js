@@ -46,7 +46,7 @@ window.VirtualiserInjector = {
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
-    console.log('[Virtualiser] Menu injector ready');
+    // console.log('[Virtualiser] Menu injector ready');
     return observer;
   }
 };

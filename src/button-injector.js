@@ -16,7 +16,7 @@ window.VirtualiserInjector = {
     // Find and clone the Share button
     const shareBtn = document.querySelector('[data-testid="share-chat-button"]');
     if (!shareBtn) {
-      console.warn('[Virtualiser] Share button not found, cannot clone');
+      // console.warn('[Virtualiser] Share button not found, cannot clone');
       return null;
     }
 
@@ -78,7 +78,7 @@ window.VirtualiserInjector = {
       btn.style.cursor = '';
       this.refresh();
     }
-    console.log(`[Virtualiser] Button loading: ${loading}`);
+    // console.log(`[Virtualiser] Button loading: ${loading}`);
   },
 
   // Update existing button state
@@ -132,7 +132,7 @@ window.VirtualiserInjector = {
     
     // Position it relative to header
     this.positionButton();
-    console.log('[Virtualiser] Header button injected');
+    // console.log('[Virtualiser] Header button injected');
     
     this.isInjecting = false;
   },
@@ -178,7 +178,7 @@ window.VirtualiserInjector = {
     window.addEventListener('resize', () => this.positionButton());
     window.addEventListener('scroll', () => this.positionButton(), true);
     
-    console.log('[Virtualiser] Button injector ready');
+    // console.log('[Virtualiser] Button injector ready');
     return this.observer;
   },
 

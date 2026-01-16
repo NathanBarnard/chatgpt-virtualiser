@@ -15,7 +15,7 @@ window.VirtualiserStorage = {
       const result = await chrome.storage.local.get('virtualiser_enabled');
       return new Set(result.virtualiser_enabled || []);
     } catch (e) {
-      console.error('[Virtualiser] Failed to load enabled conversations:', e);
+      // console.error('[Virtualiser] Failed to load enabled conversations:', e);
       return new Set();
     }
   },
@@ -25,7 +25,7 @@ window.VirtualiserStorage = {
     try {
       await chrome.storage.local.set({ virtualiser_enabled: [...enabledSet] });
     } catch (e) {
-      console.error('[Virtualiser] Failed to save enabled conversations:', e);
+      // console.error('[Virtualiser] Failed to save enabled conversations:', e);
     }
   },
 
@@ -42,11 +42,11 @@ window.VirtualiserStorage = {
     const convId = this.getConversationId();
     if (!convId) return false;
 
-    console.log(`[Virtualiser] Enabling for conversation: ${convId}`);
+    // console.log(`[Virtualiser] Enabling for conversation: ${convId}`);
     const enabled = await this.getEnabledConversations();
     enabled.add(convId);
     await this.saveEnabledConversations(enabled);
-    console.log(`[Virtualiser] Saved. Total enabled: ${enabled.size}`);
+    // console.log(`[Virtualiser] Saved. Total enabled: ${enabled.size}`);
     return true;
   },
 
@@ -55,11 +55,11 @@ window.VirtualiserStorage = {
     const convId = this.getConversationId();
     if (!convId) return false;
 
-    console.log(`[Virtualiser] Disabling for conversation: ${convId}`);
+    // console.log(`[Virtualiser] Disabling for conversation: ${convId}`);
     const enabled = await this.getEnabledConversations();
     enabled.delete(convId);
     await this.saveEnabledConversations(enabled);
-    console.log(`[Virtualiser] Saved. Total enabled: ${enabled.size}`);
+    // console.log(`[Virtualiser] Saved. Total enabled: ${enabled.size}`);
     return true;
   }
 };
