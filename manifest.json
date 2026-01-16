@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Conversation Virtualiser",
+  "version": "1.0.0",
+  "description": "Hide and reveal messages in long ChatGPT conversations to improve performance and reduce clutter",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/c/*",
+        "https://chat.openai.com/c/*"
+      ],
+      "js": [
+        "src/icons.js",
+        "src/storage.js",
+        "src/ui.js",
+        "src/virtualiser-pages.js",
+        "src/actions.js",
+        "src/button-injector.js",
+        "src/main.js"
+      ],
+      "css": ["src/styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "ChatGPT Virtualiser"
+  }
+}

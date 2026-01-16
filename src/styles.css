@@ -1,0 +1,72 @@
+/* ChatGPT Virtualiser Styles */
+
+/* Hidden placeholder element */
+.virtualiser-hidden-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px;
+  margin: 8px 0;
+  background: linear-gradient(135deg, rgba(16, 163, 127, 0.08), rgba(16, 163, 127, 0.03));
+  border: 1px dashed rgba(16, 163, 127, 0.3);
+  border-radius: 12px;
+  color: #10a37f;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.virtualiser-hidden-placeholder:hover {
+  background: linear-gradient(135deg, rgba(16, 163, 127, 0.12), rgba(16, 163, 127, 0.06));
+  border-color: rgba(16, 163, 127, 0.5);
+}
+
+.virtualiser-hidden-placeholder svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Toast notifications */
+.virtualiser-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  background: var(--main-surface-primary, #2f2f2f);
+  border: 1px solid var(--border-medium, #444654);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  color: var(--text-primary, #ececf1);
+  font-size: 14px;
+  z-index: 10002;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+
+.virtualiser-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.virtualiser-toast.success {
+  border-left: 3px solid #10a37f;
+}
+
+.virtualiser-toast.error {
+  border-left: 3px solid #ef4444;
+}
+
+/* Modal - use ChatGPT's primary button style for confirm */
+.virtualiser-modal .virtualiser-confirm-btn {
+  background-color: #10a37f !important;
+  color: white !important;
+}
+
+.virtualiser-modal .virtualiser-confirm-btn:hover {
+  background-color: #0d8a6a !important;
+}
