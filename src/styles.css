@@ -89,3 +89,13 @@
 .virtualiser-modal .virtualiser-confirm-btn:hover {
   background-color: #0d8a6a !important;
 }
+
+/* Menu item hover/focus states */
+.virtualiser-menu-item {
+  cursor: pointer;
+}
+
+.virtualiser-menu-item:hover,
+.virtualiser-menu-item:focus {
+  background-color: var(--menu-item-highlighted);
+}

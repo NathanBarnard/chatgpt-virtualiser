@@ -40,7 +40,7 @@ window.VirtualiserUI = {
     const item = document.createElement('div');
     item.setAttribute('role', 'menuitem');
     item.setAttribute('tabindex', '0');
-    item.className = 'group __menu-item gap-1.5';
+    item.className = 'group __menu-item gap-1.5 virtualiser-menu-item';
     item.setAttribute('data-orientation', 'vertical');
     item.setAttribute('data-radix-collection-item', '');
     if (testId) {
