@@ -3,23 +3,35 @@
  */
 
 window.VirtualiserUI = {
-  // Show toast notification
+  // Show toast notification (matches ChatGPT native style)
   showToast(message, type = 'success') {
-    const existing = document.querySelector('.virtualiser-toast');
+    const existing = document.querySelector('.virtualiser-toast-container');
     if (existing) existing.remove();
 
-    const toast = document.createElement('div');
-    toast.className = `virtualiser-toast ${type}`;
-    toast.textContent = message;
-    document.body.appendChild(toast);
+    const icon = type === 'success' 
+      ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>`
+      : `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z" clip-rule="evenodd"/></svg>`;
+
+    const container = document.createElement('span');
+    container.className = 'virtualiser-toast-container';
+    container.innerHTML = `
+      <div class="virtualiser-toast ${type}">
+        <div class="virtualiser-toast-inner">
+          ${icon}
+          <span>${message}</span>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(container);
 
     requestAnimationFrame(() => {
-      toast.classList.add('show');
+      container.querySelector('.virtualiser-toast').classList.add('show');
     });
 
     setTimeout(() => {
-      toast.classList.remove('show');
-      setTimeout(() => toast.remove(), 300);
+      const toast = container.querySelector('.virtualiser-toast');
+      if (toast) toast.classList.remove('show');
+      setTimeout(() => container.remove(), 200);
     }, 3000);
   },
 

@@ -29,23 +29,27 @@
   flex-shrink: 0;
 }
 
-/* Toast notifications */
-.virtualiser-toast {
+/* Toast notifications - matches ChatGPT native style */
+.virtualiser-toast-container {
+  pointer-events: none;
   position: fixed;
-  bottom: 24px;
-  right: 24px;
-  padding: 12px 20px;
-  background: var(--main-surface-primary, #2f2f2f);
-  border: 1px solid var(--border-medium, #444654);
-  border-radius: 10px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  color: var(--text-primary, #ececf1);
-  font-size: 14px;
-  z-index: 10002;
+  inset: 0;
+  z-index: 60;
+  margin: 8px auto;
+  display: flex;
+  max-width: 728px;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.virtualiser-toast {
+  width: 100%;
+  padding: 4px;
+  text-align: center;
   opacity: 0;
-  transform: translateY(16px);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  font-family: inherit;
+  transform: translateY(-8px);
+  transition: all 0.2s ease-out;
 }
 
 .virtualiser-toast.show {
@@ -53,12 +57,27 @@
   transform: translateY(0);
 }
 
-.virtualiser-toast.success {
-  border-left: 3px solid #10a37f;
+.virtualiser-toast-inner {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid;
+  pointer-events: auto;
+  font-size: 14px;
+  color: white;
 }
 
-.virtualiser-toast.error {
-  border-left: 3px solid #ef4444;
+.virtualiser-toast.success .virtualiser-toast-inner {
+  border-color: #16a34a;
+  background-color: #16a34a;
+}
+
+.virtualiser-toast.error .virtualiser-toast-inner {
+  border-color: #dc2626;
+  background-color: #dc2626;
 }
 
 /* Modal - use ChatGPT's primary button style for confirm */
