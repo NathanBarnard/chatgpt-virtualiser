@@ -3,13 +3,8 @@
   "name": "ChatGPT Performance Booster",
   "version": "1.0.0",
   "description": "Boost performance in long ChatGPT chats automatically.",
-  "permissions": [
-    "storage"
-  ],
-  "host_permissions": [
-    "https://chatgpt.com/*",
-    "https://chat.openai.com/*"
-  ],
+  "permissions": ["storage"],
+  "host_permissions": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
   "content_scripts": [
     {
       "matches": [

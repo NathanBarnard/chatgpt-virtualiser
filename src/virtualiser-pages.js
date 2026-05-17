@@ -17,190 +17,192 @@ window.Virtualiser = {
 
   // Get viewport height
   getViewportHeight() {
-    return window.innerHeight;
+    return window.innerHeight
   },
 
   // Get all message turn elements
   getMessages() {
-    return document.querySelectorAll('article[data-turn-id]');
+    return document.querySelectorAll('article[data-turn-id], section[data-turn-id]')
   },
 
   // Get hidden message elements
   getHiddenMessages() {
-    return document.querySelectorAll('article[data-virtualiser-hidden="true"]');
+    return document.querySelectorAll(
+      'article[data-virtualiser-hidden="true"], section[data-virtualiser-hidden="true"]'
+    )
   },
 
   // Calculate total height of an array of elements
   calculateTotalHeight(elements) {
     return elements.reduce((total, el) => {
       // Need to temporarily show hidden elements to measure
-      const wasHidden = el.style.display === 'none';
-      if (wasHidden) el.style.display = '';
-      const height = el.getBoundingClientRect().height;
-      if (wasHidden) el.style.display = 'none';
-      return total + height;
-    }, 0);
+      const wasHidden = el.style.display === 'none'
+      if (wasHidden) el.style.display = ''
+      const height = el.getBoundingClientRect().height
+      if (wasHidden) el.style.display = 'none'
+      return total + height
+    }, 0)
   },
 
   // Find how many messages from the end fill N viewport heights
   findMessagesForPages(messages, pages) {
-    const targetHeight = this.getViewportHeight() * pages;
-    let totalHeight = 0;
-    let count = 0;
+    const targetHeight = this.getViewportHeight() * pages
+    let totalHeight = 0
+    let count = 0
 
     // Start from the end (most recent) and work backwards
     for (let i = messages.length - 1; i >= 0; i--) {
-      const height = messages[i].getBoundingClientRect().height;
-      totalHeight += height;
-      count++;
-      
+      const height = messages[i].getBoundingClientRect().height
+      totalHeight += height
+      count++
+
       if (totalHeight >= targetHeight) {
-        break;
+        break
       }
     }
 
-    return count;
+    return count
   },
 
   // Apply virtualisation - hide messages beyond N scroll pages
   apply() {
-    const messages = Array.from(this.getMessages());
-    const viewportHeight = this.getViewportHeight();
-    
+    const messages = Array.from(this.getMessages())
+    const viewportHeight = this.getViewportHeight()
+
     // console.log(`[Virtualiser:Pages] Found ${messages.length} messages, viewport: ${viewportHeight}px`);
-    
+
     // Calculate how many messages to keep visible
-    const visibleCount = this.findMessagesForPages(messages, this.VISIBLE_PAGES);
-    
+    const visibleCount = this.findMessagesForPages(messages, this.VISIBLE_PAGES)
+
     // console.log(`[Virtualiser:Pages] Keeping ${visibleCount} messages (${this.VISIBLE_PAGES} pages worth)`);
-    
+
     if (visibleCount >= messages.length) {
       // console.log(`[Virtualiser:Pages] All messages fit in ${this.VISIBLE_PAGES} pages, nothing to hide`);
-      return;
+      return
     }
 
-    window.VirtualiserUI.removePlaceholders();
+    window.VirtualiserUI.removePlaceholders()
 
-    const hiddenCount = messages.length - visibleCount;
-    const messagesToHide = messages.slice(0, hiddenCount);
+    const hiddenCount = messages.length - visibleCount
+    const messagesToHide = messages.slice(0, hiddenCount)
 
-    const hiddenHeight = this.calculateTotalHeight(messagesToHide);
+    const hiddenHeight = this.calculateTotalHeight(messagesToHide)
     // console.log(`[Virtualiser:Pages] Hiding ${hiddenCount} messages (${Math.round(hiddenHeight)}px, ~${(hiddenHeight / viewportHeight).toFixed(1)} pages)`);
 
     messagesToHide.forEach(msg => {
-      msg.style.display = 'none';
-      msg.setAttribute('data-virtualiser-hidden', 'true');
-    });
+      msg.style.display = 'none'
+      msg.setAttribute('data-virtualiser-hidden', 'true')
+    })
 
     if (hiddenCount > 0) {
-      const firstVisible = messages[hiddenCount];
-      window.VirtualiserUI.insertPlaceholder(firstVisible, hiddenCount, () => this.revealBatch());
+      const firstVisible = messages[hiddenCount]
+      window.VirtualiserUI.insertPlaceholder(firstVisible, hiddenCount, () => this.revealBatch())
       // console.log(`[Virtualiser:Pages] Placeholder inserted, ${hiddenCount} messages hidden`);
     }
   },
 
   // Reveal a batch of hidden messages (1 page worth)
   revealBatch() {
-    if (this.isRevealing) return;
-    this.isRevealing = true;
+    if (this.isRevealing) return
+    this.isRevealing = true
 
     // Save scroll position before revealing
-    const scrollY = window.scrollY;
+    const scrollY = window.scrollY
 
-    const hidden = Array.from(this.getHiddenMessages());
+    const hidden = Array.from(this.getHiddenMessages())
     if (hidden.length === 0) {
-      this.isRevealing = false;
-      window.VirtualiserUI.updatePlaceholder(0);
-      this.stopObserver();
-      return;
+      this.isRevealing = false
+      window.VirtualiserUI.updatePlaceholder(0)
+      this.stopObserver()
+      return
     }
 
     // Calculate how many messages make up 1 page, starting from the last hidden
-    const targetHeight = this.getViewportHeight() * this.REVEAL_PAGES;
-    let totalHeight = 0;
-    let revealCount = 0;
+    const targetHeight = this.getViewportHeight() * this.REVEAL_PAGES
+    let totalHeight = 0
+    let revealCount = 0
 
     // Start from the last hidden message (closest to visible content)
     for (let i = hidden.length - 1; i >= 0; i--) {
       // Temporarily show to measure
-      hidden[i].style.display = '';
-      const height = hidden[i].getBoundingClientRect().height;
-      hidden[i].style.display = 'none';
-      
-      totalHeight += height;
-      revealCount++;
-      
+      hidden[i].style.display = ''
+      const height = hidden[i].getBoundingClientRect().height
+      hidden[i].style.display = 'none'
+
+      totalHeight += height
+      revealCount++
+
       if (totalHeight >= targetHeight) {
-        break;
+        break
       }
     }
 
     // Reveal at least 1 message
-    revealCount = Math.max(1, revealCount);
-    const toReveal = hidden.slice(-revealCount);
-    
+    revealCount = Math.max(1, revealCount)
+    const toReveal = hidden.slice(-revealCount)
+
     // console.log(`[Virtualiser:Pages] Revealing ${toReveal.length} messages (~${this.REVEAL_PAGES} page, ${hidden.length - toReveal.length} still hidden)`);
 
     toReveal.forEach(msg => {
-      msg.style.display = '';
-      msg.removeAttribute('data-virtualiser-hidden');
-    });
+      msg.style.display = ''
+      msg.removeAttribute('data-virtualiser-hidden')
+    })
 
-    const remaining = hidden.length - toReveal.length;
-    window.VirtualiserUI.updatePlaceholder(remaining);
+    const remaining = hidden.length - toReveal.length
+    window.VirtualiserUI.updatePlaceholder(remaining)
 
     if (remaining > 0) {
-      const placeholder = window.VirtualiserUI.getPlaceholder();
+      const placeholder = window.VirtualiserUI.getPlaceholder()
       if (placeholder && toReveal[0]) {
-        toReveal[0].parentNode.insertBefore(placeholder, toReveal[0]);
+        toReveal[0].parentNode.insertBefore(placeholder, toReveal[0])
       }
-      this.reobservePlaceholder();
+      this.reobservePlaceholder()
     } else {
-      this.stopObserver();
+      this.stopObserver()
     }
 
     // Restore scroll position to where it was before revealing
-    window.scrollTo(0, scrollY);
+    window.scrollTo(0, scrollY)
 
-    this.isRevealing = false;
+    this.isRevealing = false
   },
 
   // Reveal all hidden messages
   revealAll() {
-    const hidden = this.getHiddenMessages();
+    const hidden = this.getHiddenMessages()
     // console.log(`[Virtualiser:Pages] Revealing all ${hidden.length} hidden messages`);
-    
-    hidden.forEach(element => {
-      element.style.display = '';
-      element.removeAttribute('data-virtualiser-hidden');
-    });
 
-    window.VirtualiserUI.removePlaceholders();
+    hidden.forEach(element => {
+      element.style.display = ''
+      element.removeAttribute('data-virtualiser-hidden')
+    })
+
+    window.VirtualiserUI.removePlaceholders()
   },
 
   // Setup IntersectionObserver for the placeholder
   startObserver() {
-    this.stopObserver();
+    this.stopObserver()
 
     this.intersectionObserver = new IntersectionObserver(
-      (entries) => {
+      entries => {
         for (const entry of entries) {
           if (entry.isIntersecting && !this.isRevealing) {
             // console.log('[Virtualiser:Pages] Placeholder intersecting, revealing batch');
-            this.revealBatch();
+            this.revealBatch()
           }
         }
       },
       {
         root: null,
         rootMargin: `${this.REVEAL_MARGIN}px 0px 0px 0px`,
-        threshold: 0
+        threshold: 0,
       }
-    );
+    )
 
-    const placeholder = window.VirtualiserUI.getPlaceholder();
+    const placeholder = window.VirtualiserUI.getPlaceholder()
     if (placeholder) {
-      this.intersectionObserver.observe(placeholder);
+      this.intersectionObserver.observe(placeholder)
       // console.log('[Virtualiser:Pages] IntersectionObserver watching placeholder');
     }
   },
@@ -208,18 +210,18 @@ window.Virtualiser = {
   // Stop IntersectionObserver
   stopObserver() {
     if (this.intersectionObserver) {
-      this.intersectionObserver.disconnect();
-      this.intersectionObserver = null;
+      this.intersectionObserver.disconnect()
+      this.intersectionObserver = null
       // console.log('[Virtualiser:Pages] IntersectionObserver disconnected');
     }
   },
 
   // Re-observe placeholder after it moves
   reobservePlaceholder() {
-    const placeholder = window.VirtualiserUI.getPlaceholder();
+    const placeholder = window.VirtualiserUI.getPlaceholder()
     if (placeholder && this.intersectionObserver) {
-      this.intersectionObserver.disconnect();
-      this.intersectionObserver.observe(placeholder);
+      this.intersectionObserver.disconnect()
+      this.intersectionObserver.observe(placeholder)
     }
-  }
-};
+  },
+}
